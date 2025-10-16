@@ -23,3 +23,19 @@ def save_new_book(data):
     db.session.add(new_book)
     db.session.commit()
     return new_book
+
+#güncelleme
+def update_book_db(book, data):
+    book.title = data['title']
+    book.isbn = data['isbn']
+    book.author = data['author']
+    book.publication_year = data['publication_year']
+    book.category = data['category']
+
+    db.session.commit()
+    return book
+
+#silme
+def delete_book_db(book):
+    db.session.delete(book)
+    db.session.commit()

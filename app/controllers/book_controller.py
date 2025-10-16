@@ -1,9 +1,11 @@
 from flask import Blueprint, request, jsonify
 from app.services import book_service
+from app.services.book_service import delete_book_service
 
 #bluprint oluştuturp tüm endpointlerin bu yolla başlaması için
 books_bp = Blueprint('books_bp', __name__, url_prefix='/api/books')
 
+#tümünü listeleme
 @books_bp.route('/books', methods=['GET'])
 def get_books():
     try:
@@ -12,8 +14,17 @@ def get_books():
     except Exception as e:
         return jsonify({'error': str(e)}), 500
 
-@books_bp.route('/', methods=['POST'])
+#id ile tek kitap getirme
+@books_bp.route('/<int:book_id>', methods=['GET'])
+def get_single_book(book_id):
+    try:
+        book = book_service.get_book_by_id_service(book_id)
+        return jsonify(book), 200
+    except ValueError as e:
+        return jsonify({'error': str(e)}), 404
 
+#yeni oluşturma
+@books_bp.route('/', methods=['POST'])
 def create_book():
     data = request.get_json()
 
@@ -23,5 +34,24 @@ def create_book():
     try:
         new_book = book_service.create_book_service(data)
         return jsonify(new_book.to_json()), 201
-    except Exception as e:
-        return jsonify({'error': str(e)}), 409
+    except ValueError as e:
+        return jsonify({'error': str(e)}), 400
+
+#id ile bir tanesini güncelleme
+@books_bp.route('/<int:book_id>', methods=['PUT'])
+def update_book(book_id):
+    data = request.get_json()
+    try:
+        updated_book = book_service.update_book_service(book_id, data)
+        return jsonify(updated_book.to_json()), 200
+    except ValueError as e:
+        return jsonify({'error': str(e)}), 404
+
+#id ile bir tanesini silme
+@books_bp.route('/<int:book_id>', methods=['DELETE'])
+def delete_book(book_id):
+    try:
+        delete_book_service(book_id)
+        return jsonify({'deleted': True}), 200
+    except ValueError as e:
+        return jsonify({'error': str(e)}), 404
