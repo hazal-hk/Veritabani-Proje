@@ -12,4 +12,6 @@ def create_app():
     from app.controllers.book_controller import books_bp
     app.register_blueprint(books_bp)
 
+    from app.controllers.auth_controller import auth_bp
+    app.register_blueprint(auth_bp)
     return app
