@@ -1,12 +1,14 @@
 from flask import Blueprint, request, jsonify
 from app.services import book_service
 from app.services.book_service import delete_book_service
+from flasgger import swag_from
 
 #bluprint oluştuturp tüm endpointlerin bu yolla başlaması için
 books_bp = Blueprint('books_bp', __name__, url_prefix='/api/books')
 
 #tümünü listeleme
 @books_bp.route('/books', methods=['GET'])
+@swag_from('/home/eilrie/Documents/GitHub/Veritabani-Proje/app/docs/get_all_books.yml')
 def get_books():
     try:
         books = book_service.get_all_books_services()

@@ -1,0 +1,30 @@
+summary: "Lists all books"
+description: "Returns a list of all books stored in the system."
+responses:
+  200:
+    description: "List of books retrieved successfully."
+    content:
+      application/json:
+        schema:
+          type: array
+          items:
+            type: object
+            properties:
+              id:
+                type: integer
+                description: "Book ID"
+              title:
+                title: string
+                description: "Book title"
+              isbn:
+                type: string
+                description: "Book ISBN"
+              author:
+                type: string
+                description: "Book Author"
+              publication_year:
+                type: integer
+                description: "Book Publication Year"
+              category:
+                type: string
+                description: "Book Category"
