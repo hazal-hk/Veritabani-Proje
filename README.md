@@ -4,7 +4,7 @@ Bu proje, Flask (Python) ile geliştirilmiş, bir kütüphane otomasyon sistemid
 
 ## Teknolojiler
 - **Backend:** Python, Flask, SQLAlchemy
-- **Veritabanı:** MySQL
+- **Veritabanı:** MariaDB
 - **Kimlik Doğrulama:** JSON Web Tokens (JWT)
 - **API Test/Dokümantasyon:** Swagger (Flasgger)
 - **Diğer:** Flask-Mail, Werkzeug
