@@ -1,0 +1,31 @@
+tags:
+  - Authentication 
+summary: Create a new user account
+parameters:
+  - name: body
+    in: body
+    required: true
+    schema:
+      type: object
+      required:
+        - username
+        - email
+        - password
+      properties:
+        username:
+          type: string
+          example: "hazal_karayigit"
+        email:
+          type: string
+          example: "448887@ktu.edu.tr"
+        password:
+          type: string
+          example: "hazal123"
+        role:
+          type: string
+          example: "student"
+responses:
+  201:
+    description: User successfully created
+  400:
+    description: incorrect data

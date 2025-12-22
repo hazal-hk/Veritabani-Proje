@@ -2,10 +2,12 @@ from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 from flasgger import Swagger
 from flask_mail import Mail
+from flask_jwt_extended import JWTManager
 
 db = SQLAlchemy()
 mail = Mail()
 swagger = Swagger()
+jwt = JWTManager()
 
 def create_app():
     app = Flask(__name__)
@@ -22,6 +24,7 @@ def create_app():
     db.init_app(app)
     mail.init_app(app)
     swagger.init_app(app)
+    jwt.init_app
 
     from app.controllers.book_controller import books_bp
     app.register_blueprint(books_bp)

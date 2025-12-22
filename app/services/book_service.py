@@ -11,6 +11,8 @@ def get_book_by_id_service(book_id):
     if not book:
         raise ValueError('Book not found')
     return book.to_json()
+    if not data or 'title' not in data or 'isbn' not in data:
+        raise ValueError("Title and ISBN are required!")
 
 #yeni kitap için gerekenleri çağırır
 def create_book_service(data):
@@ -36,3 +38,4 @@ def delete_book_service(book_id):
         raise ValueError('Book not found')
 
     book_repository.delete_book_db(book_to_delete)
+    return True

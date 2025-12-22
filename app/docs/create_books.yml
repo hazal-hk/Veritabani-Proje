@@ -1,0 +1,27 @@
+tags:
+  - Books
+summary: Adding new books
+parameters:
+  - name: body
+    in: body
+    required: true
+    schema:
+      type: object
+      required:
+        - title
+        - isbn
+      properties:
+        title:
+          type: string
+          example: "Sefiller"
+        isbn:
+          type: string
+          example: "9789750000001"
+        publication_year:
+          type: integer
+          example: 1862
+responses:
+  201:
+    description: Book created successfully
+  400:
+    description: Incorrect data entry

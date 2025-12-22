@@ -1,0 +1,24 @@
+tags:
+  - Authentication
+summary: Log in to the system and get Token
+parameters:
+  - name: body
+    in: body
+    required: true
+    schema:
+      type: object
+      required:
+        - username
+        - password
+      properties:
+        username:
+          type: string
+          example: "hazal_karayigit"
+        password:
+          type: string
+          example: "hazal123"
+responses:
+  200:
+    description: login successful, token confirmed.
+  401:
+    description: incorrect password or username

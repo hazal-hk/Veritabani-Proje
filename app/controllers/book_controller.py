@@ -4,7 +4,7 @@ from app.services.book_service import delete_book_service
 from flasgger import swag_from
 
 #bluprint oluştuturp tüm endpointlerin bu yolla başlaması için
-books_bp = Blueprint('books_bp', __name__, url_prefix='/api/books')
+books_bp = Blueprint('books_bp', __name__, url_prefix='/api')
 
 #tümünü listeleme
 @books_bp.route('/books', methods=['GET'])
@@ -27,6 +27,7 @@ def get_single_book(book_id):
 
 #yeni oluşturma
 @books_bp.route('/', methods=['POST'])
+@swag_from('/home/eilrie/Documents/GitHub/Veritabani-Proje/app/docs/create_books.yml')
 def create_book():
     data = request.get_json()
 
@@ -41,6 +42,7 @@ def create_book():
 
 #id ile bir tanesini güncelleme
 @books_bp.route('/<int:book_id>', methods=['PUT'])
+@swag_from('/home/eilrie/Documents/GitHub/Veritabani-Proje/app/docs/update_book.yml')
 def update_book(book_id):
     data = request.get_json()
     try:
@@ -51,6 +53,7 @@ def update_book(book_id):
 
 #id ile bir tanesini silme
 @books_bp.route('/<int:book_id>', methods=['DELETE'])
+@swag_from('/home/eilrie/Documents/GitHub/Veritabani-Proje/app/docs/delete_book.yml')
 def delete_book(book_id):
     try:
         delete_book_service(book_id)

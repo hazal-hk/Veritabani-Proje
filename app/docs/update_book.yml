@@ -1,0 +1,28 @@
+tags:
+  - Books
+summary: Update an existing book
+parameters:
+  - name: book_id
+    in: path
+    type: integer
+    required: true
+    description: ID of the book to be updated
+  - name: body
+    in: body
+    required: true
+    schema:
+      type: object
+      properties:
+        title:
+          type: string
+          example: "Sefiller (Güncel)"
+        isbn:
+          type: string
+          example: "9789750000001"
+responses:
+  200:
+    description: Book updated
+  404:
+    description: Book not found
+
+    
