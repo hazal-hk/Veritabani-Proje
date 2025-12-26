@@ -8,7 +8,7 @@ def create_fine(user_id, amount, reason):
     return new_fine
 
 def get_user_fines(user_id):
-    # sadece ödenmemiş cezalarını seçer
+    # sadece ödenmemiş cezaları seçer
     return Fine.query.filter_by(user_id=user_id, is_paid=False).all()
 
 def get_fine_by_id(fine_id):

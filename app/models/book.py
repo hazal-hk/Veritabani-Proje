@@ -11,12 +11,12 @@ class Book(db.Model):
     category = db.Column(db.String(50), nullable=False)
 
 #bu fonksiyonu nesneyi json'a çevirmeyi kolaylaştırması için ekledim
-def to_json(self):
-    return {
-        'id': self.id,
-        'title': self.title,
-        'isbn': self.isbn,
-        'author': self.author,
-        'publication_year': self.publication_year,
-        'category': self.category,
-    }
+    def to_json(self):
+        return {
+            'id': self.id,
+            'title': self.title,
+            'isbn': self.isbn,
+            'author': self.author,
+            'publication_year': self.publication_year,
+            'category': self.category,
+        }

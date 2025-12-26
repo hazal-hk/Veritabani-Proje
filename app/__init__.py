@@ -57,6 +57,7 @@ def create_app():
 
     jwt.init_app(app)
 
+    #Bluprintler
     from app.controllers.book_controller import books_bp
     app.register_blueprint(books_bp)
 
@@ -67,5 +68,8 @@ def create_app():
     app.register_blueprint(views_bp)
 
     from app.models.fine import Fine
+
+    from app.controllers.payment_controller import payment_bp
+    app.register_blueprint(payment_bp)
 
     return app
