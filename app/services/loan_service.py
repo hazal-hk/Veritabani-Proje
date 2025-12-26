@@ -1,5 +1,6 @@
 from app.repositories import loan_repository, book_repository, fine_repository
 from datetime import datetime
+from app.services import email_service
 
 # günlük gecikme cezası 
 DAILY_FINE_AMOUNT = 5.0 
@@ -14,8 +15,14 @@ def borrow_book_service(user_id, book_id):
     if loan_repository.get_active_loan(user_id, book_id):
         raise ValueError("you already borrowed this book?? and haven't returned it")
 
-    #sağladıysa ödünç verdik
-    return loan_repository.create_loan(user_id, book_id).to_json()
+    #gerekeni sağladıysa ödünç verdik - ilişkilere ihtiyaç olduğıu için json yok
+    loan = loan_repository.create_loan(user_id, book_id)
+
+    #maili tetikle
+    email_service.send_loan_notification(loan.user.email, loan.user.username, loan.book.title)
+
+    #şimdi jsona çevirebilirz
+    return loan.to_json()
 
 def return_book_service(user_id, book_id):
     #ödünç alıp da iade etmesi gereken bir kitabı var mı
@@ -25,6 +32,7 @@ def return_book_service(user_id, book_id):
 
     #iade işlemini veritabanına işler
     loan = loan_repository.return_loan_db(loan)
+
     
     #cezayı şöyle hesaplayacaq
     #eğer iade tarihi son teslim tarihinden büyükse

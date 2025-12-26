@@ -30,6 +30,11 @@ def create_app():
     #SÜREKLİ GİRİŞ YAPMAKLA UĞRAŞTIĞIM İÇİN TOKEN SÜRESİNİ ARTTIRDIM
     app.config["JWT_ACCESS_TOKEN_EXPIRES"] = datetime.timedelta(days=7)
 
+    #zamanın kalırsa gmaili eklemeye çalış
+    #ayarlar başlatma komutundan önce olmalıu
+    app.config['MAIL_BACKEND'] = 'flask_mail.backends.console.Mail'
+    app.config['MAIL_DEFAULT_SENDER'] = 'kutuphane@ktu.edu.tr'
+
     # swagger için güvenlik ayarı template i
     swagger_template = {
         "swagger": "2.0",
@@ -50,12 +55,14 @@ def create_app():
     }
 
     db.init_app(app)
-    mail.init_app(app)
+
+    jwt.init_app(app)
+    
     # template i init_app içinde değil doğrudan nesnesine
     swagger.template = swagger_template
     swagger.init_app(app)
 
-    jwt.init_app(app)
+    mail.init_app(app)
 
     #Bluprintler
     from app.controllers.book_controller import books_bp

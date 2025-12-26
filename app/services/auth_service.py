@@ -1,8 +1,9 @@
 from app.repositories import user_repository
 from flask_jwt_extended import create_access_token
+from app.services import email_service
 
 def register_user_service(data):
-    # gerekli alan kontrolü
+    #gerekli alan kontrolü
     if not data or not data.get('username') or not data.get('email') or not data.get('password'):
         raise ValueError('Username, email, and password are required.')
 
@@ -10,11 +11,18 @@ def register_user_service(data):
     if user_repository.get_user_by_username(data['username']):
         raise ValueError('This username is already in use')
 
-    # email kontrolü
+    #email kontrolü
     if user_repository.get_user_by_email(data['email']):
         raise ValueError('This email address is already registered')
 
-    return user_repository.save_new_user(data)
+    #önce bi kullanıcıyı kaydedeydin
+    new_user = user_repository.save_new_user(data)
+    #sonra maili zaten atarsın
+    email_service.send_welcome_email(new_user.email, new_user.username)
+    
+    return new_user
+
+
 
 def login_user_service(data):
     username = data.get('username')
