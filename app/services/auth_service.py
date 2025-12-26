@@ -38,7 +38,7 @@ def register_user_service(data):
     return user_repository.save_new_user(data)
 
 def login_user_service(data):
-    user = user_repository.find_user_by_username(data['username'])
+    user = user_repository.get_user_by_username(data['username'])
 
     if user and user.check_password(data['password']):
         token = jwt.encode({

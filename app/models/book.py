@@ -6,9 +6,9 @@ class Book(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     title = db.Column(db.String(255), nullable=False)
     isbn = db.Column(db.String(13), unique=True, nullable=False)
-    author = db.Column(db.String)
+    author = db.Column(db.String(100), nullable=False)
     publication_year = db.Column(db.Integer)
-    category = db.Column(db.String)
+    category = db.Column(db.String(50), nullable=False)
 
 #bu fonksiyonu nesneyi json'a çevirmeyi kolaylaştırması için ekledim
 def to_json(self):

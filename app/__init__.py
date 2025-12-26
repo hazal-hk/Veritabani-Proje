@@ -35,4 +35,6 @@ def create_app():
     from app.controllers.views_controller import views_bp
     app.register_blueprint(views_bp)
 
+    from app.models.fine import Fine
+
     return app
