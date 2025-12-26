@@ -22,6 +22,7 @@ class Loan(db.Model):
             'id': self.id,
             'user': self.user.username,
             'book': self.book.title,
+            'book_id': self.book.id,  #BURAYI NASI UNUTTUN İDSİZ OLUR MU
             'borrow_date': self.borrow_date,
             'due_date': self.due_date,
             'return_date': self.return_date,

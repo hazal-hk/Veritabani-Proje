@@ -57,7 +57,7 @@ def create_app():
     db.init_app(app)
 
     jwt.init_app(app)
-    
+
     # template i init_app içinde değil doğrudan nesnesine
     swagger.template = swagger_template
     swagger.init_app(app)
@@ -83,5 +83,8 @@ def create_app():
 
     from app.controllers.loan_controller import loan_bp
     app.register_blueprint(loan_bp)
+
+    from app.controllers.frontend_controller import frontend_bp
+    app.register_blueprint(frontend_bp)
 
     return app

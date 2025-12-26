@@ -82,3 +82,25 @@ def return_book():
         return jsonify(result), 200
     except ValueError as e:
         return jsonify({'error': str(e)}), 400
+
+@loan_bp.route('/my-loans', methods=['GET'])
+@jwt_required()
+def get_my_loans():
+    """
+    List active loans of the user
+    ---
+    tags:
+      - Loans
+    parameters:
+      - name: Authorization
+        in: header
+        type: string
+        required: true
+        description: Bearer <TOKEN>
+    responses:
+      200:
+        description: List of loans
+    """
+    current_user_id = get_jwt_identity()
+    loans = loan_service.get_my_loans_service(current_user_id)
+    return jsonify(loans), 200

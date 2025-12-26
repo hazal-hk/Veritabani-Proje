@@ -53,3 +53,7 @@ def return_book_service(user_id, book_id):
             }
 
     return {"message": "The book was returned on time... Thank you!", "fine_applied": False}
+
+def get_my_loans_service(user_id):
+    loans = loan_repository.get_user_active_loans(user_id)
+    return [loan.to_json() for loan in loans]

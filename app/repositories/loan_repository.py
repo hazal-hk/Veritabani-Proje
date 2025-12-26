@@ -19,3 +19,7 @@ def return_loan_db(loan):
     loan.return_date = datetime.utcnow()
     db.session.commit()
     return loan
+
+def get_user_active_loans(user_id):
+    #iade etmediği kayıtları getirir
+    return Loan.query.filter_by(user_id=user_id, return_date=None).all()
