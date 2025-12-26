@@ -1,10 +1,13 @@
 tags:
   - Books
 summary: Adding new books
+security:
+  - Bearer: []
 parameters:
   - name: body
     in: body
     required: true
+    description: "kitap bilgilerini içeren JSON şeysi"
     schema:
       type: object
       required:
@@ -25,3 +28,5 @@ responses:
     description: Book created successfully
   400:
     description: Incorrect data entry
+  401:
+    description: Unauthorized access! Token is missing or incorrect.

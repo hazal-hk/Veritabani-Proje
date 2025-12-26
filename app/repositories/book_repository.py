@@ -1,5 +1,5 @@
 from unicodedata import category
-
+from sqlalchemy.exc import IntegrityError
 from app.models.book import Book
 from app import db
 
@@ -14,14 +14,22 @@ def get_book_by_id(book_id):
 #yeni kitap kaydı
 def save_new_book(data):
     new_book = Book(
-                    title=data['title'],
-                    isbn=data['isbn'],
-                    author=data['author'],
-                    publication_year=data.get['publication_year'],
-                    category=data['category'],
+        title=data['title'],
+        isbn=data['isbn'],
+        author=data['author'],
+        publication_year=data.get('publication_year'),
+        category=data['category']
     )
-    db.session.add(new_book)
-    db.session.commit()
+    
+    try:
+        db.session.add(new_book)
+        db.session.commit()
+    except IntegrityError:
+        # hata olursa işlemi geri al (veritabanı kilitlenmesin diye)
+        db.session.rollback()
+        # o kocaman hata mesajı yerine bunu yazdır
+        raise ValueError(f"A book with this ISBN ({data['isbn']}) number is already registered!!!!!")
+        
     return new_book
 
 #güncelleme

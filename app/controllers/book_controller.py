@@ -2,6 +2,7 @@ from flask import Blueprint, request, jsonify
 from app.services import book_service
 from app.services.book_service import delete_book_service
 from flasgger import swag_from
+from flask_jwt_extended import jwt_required, get_jwt_identity
 
 #bluprint oluştuturp tüm endpointlerin bu yolla başlaması için
 books_bp = Blueprint('books_bp', __name__, url_prefix='/api')
@@ -27,6 +28,7 @@ def get_single_book(book_id):
 
 #yeni oluşturma
 @books_bp.route('/', methods=['POST'])
+@jwt_required()
 @swag_from('/home/eilrie/Documents/GitHub/Veritabani-Proje/app/docs/create_books.yml')
 def create_book():
     data = request.get_json()
