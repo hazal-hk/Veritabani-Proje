@@ -3,6 +3,7 @@ from app.services import book_service
 from app.services.book_service import delete_book_service
 from flasgger import swag_from
 from flask_jwt_extended import jwt_required, get_jwt_identity
+from app.utils.decorators import role_required
 
 #bluprint oluştuturp tüm endpointlerin bu yolla başlaması için
 books_bp = Blueprint('books_bp', __name__, url_prefix='/api')
@@ -28,7 +29,8 @@ def get_single_book(book_id):
 
 #yeni oluşturma
 @books_bp.route('/', methods=['POST'])
-@jwt_required()
+@jwt_required()     # önce token
+@role_required('admin') #sonra rol kontrolü (sadece adminn)
 @swag_from('/home/eilrie/Documents/GitHub/Veritabani-Proje/app/docs/create_books.yml')
 def create_book():
     data = request.get_json()
@@ -55,6 +57,8 @@ def update_book(book_id):
 
 #id ile bir tanesini silme
 @books_bp.route('/<int:book_id>', methods=['DELETE'])
+@jwt_required()
+@role_required('admin') # Sadece Admin silebilir
 @swag_from('/home/eilrie/Documents/GitHub/Veritabani-Proje/app/docs/delete_book.yml')
 def delete_book(book_id):
     try:

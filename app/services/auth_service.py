@@ -28,11 +28,9 @@ def login_user_service(data):
     if not user or not user.check_password(password):
         raise ValueError('invalid username or password')
 
-    # additional_claims ile rol ve id bilgisini de token içine gömdüm
     access_token = create_access_token(
-        identity=user.username,
-        additional_claims={"role": user.role, "user_id": user.id}
-    )
+        identity=str(user.id),
+        additional_claims={"role": user.role})
 
     # frontend kısmında burayı göstermeyi unutma
     return {

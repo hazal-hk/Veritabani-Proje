@@ -72,4 +72,9 @@ def create_app():
     from app.controllers.payment_controller import payment_bp
     app.register_blueprint(payment_bp)
 
+    from app.models.loan import Loan
+
+    from app.controllers.loan_controller import loan_bp
+    app.register_blueprint(loan_bp)
+
     return app
