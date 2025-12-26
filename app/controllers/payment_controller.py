@@ -42,22 +42,34 @@ def pay_fine():
         in: header
         type: string
         required: true
-        description: Bearer <TOKEN>
-      - name: body
-        in: body
-        required: true
+        description: "Bearer <TOKEN_HEREEEE>"
         schema:
           type: object
           required:
             - fine_id
             - card_number
+            - expire_month
+            - expire_year
+            - cvc
           properties:
             fine_id:
               type: integer
               example: 1
             card_number:
               type: string
-              example: "1234567812345678"
+              example: "5528790000000001" 
+            expire_month:
+              type: string
+              example: "12"
+            expire_year:
+              type: string
+              example: "2030"
+            cvc:
+              type: string
+              example: "123"
+            card_holder_name:
+              type: string
+              example: "Hazal Karayigit"
     responses:
       200:
         description: Payment successful
