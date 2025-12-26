@@ -37,12 +37,17 @@ def pay_fine():
     ---
     tags:
       - Payments
+    consumes:
+      - application/json
     parameters:
       - name: Authorization
         in: header
         type: string
         required: true
         description: "Bearer <TOKEN_HEREEEE>"
+      - name: body
+        in: body
+        required: true
         schema:
           type: object
           required:
@@ -57,7 +62,7 @@ def pay_fine():
               example: 1
             card_number:
               type: string
-              example: "5528790000000001" 
+              example: "5528790000000001"
             expire_month:
               type: string
               example: "12"
@@ -77,10 +82,18 @@ def pay_fine():
         description: Error
     """
     current_user_id = get_jwt_identity()
-    data = request.get_json()
+    
+    #415 hatası için alınan çözüm
+    # force=True: Header ne olursa olsun okur.
+    # silent=True: Hata varsa patlamaz, None döner.
+    data = request.get_json(force=True, silent=True)
+    
+    if not data:
+        return jsonify({'error': 'Please submit valid JSON data (the Body part cannot be empty).'}), 400
     
     try:
-        result = payment_service.pay_fine_service(current_user_id, data['fine_id'], data)
+        #data['fine_id'] yerine data.get('fine_id') yazmak daha güvewnliymiş
+        result = payment_service.pay_fine_service(current_user_id, data.get('fine_id'), data)
         return jsonify({'message': 'Payment successful', 'fine': result}), 200
     except ValueError as e:
         return jsonify({'error': str(e)}), 400
