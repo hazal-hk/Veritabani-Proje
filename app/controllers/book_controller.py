@@ -28,7 +28,7 @@ def get_single_book(book_id):
         return jsonify({'error': str(e)}), 404
 
 #yeni oluşturma
-@books_bp.route('/', methods=['POST'])
+@books_bp.route('/books', methods=['POST'])
 @jwt_required()     # önce token
 @role_required('admin') #sonra rol kontrolü (sadece adminn)
 @swag_from('/home/eilrie/Documents/GitHub/Veritabani-Proje/app/docs/create_books.yml')
@@ -40,29 +40,39 @@ def create_book():
 
     try:
         new_book = book_service.create_book_service(data)
-        return jsonify(new_book.to_json()), 201
+        return jsonify(new_book), 201
     except ValueError as e:
         return jsonify({'error': str(e)}), 400
 
 #id ile bir tanesini güncelleme
-@books_bp.route('/<int:book_id>', methods=['PUT'])
+@books_bp.route('/books/<int:book_id>', methods=['PUT'])
 @swag_from('/home/eilrie/Documents/GitHub/Veritabani-Proje/app/docs/update_book.yml')
 def update_book(book_id):
     data = request.get_json()
     try:
         updated_book = book_service.update_book_service(book_id, data)
-        return jsonify(updated_book.to_json()), 200
+        return jsonify(updated_book), 200
     except ValueError as e:
         return jsonify({'error': str(e)}), 404
 
 #id ile bir tanesini silme
-@books_bp.route('/<int:book_id>', methods=['DELETE'])
+@books_bp.route('/books/<int:book_id>', methods=['DELETE'])
 @jwt_required()
-@role_required('admin') # Sadece Admin silebilir
+@role_required('admin') 
 @swag_from('/home/eilrie/Documents/GitHub/Veritabani-Proje/app/docs/delete_book.yml')
 def delete_book(book_id):
+    #force al (?force=true)
+    force_delete = request.args.get('force') == 'true'
+
     try:
-        delete_book_service(book_id)
+        #force gönder
+        delete_book_service(book_id, force=force_delete)
         return jsonify({'deleted': True}), 200
+        
     except ValueError as e:
-        return jsonify({'error': str(e)}), 404
+        error_msg = str(e)
+        #onaysız olmaz derlerse 409 döndür
+        if "CONFIRM_REQUIRED" in error_msg:
+            return jsonify({'error': 'CONFIRM_REQUIRED', 'message': error_msg}), 409
+        
+        return jsonify({'error': error_msg}), 404

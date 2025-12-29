@@ -3,7 +3,7 @@ import iyzipay
 
 # iyzico Ayarları
 API_KEY = "sandbox-NcMvyxu7KFT6nl9dKw2Q5U7P3CX7xod3"
-SECRET_KEY = "sandbox-fuGHgiWUtBiPlQ2f2SfwftiztUuCMCLl"
+SECRET_KEY = "YKi6hVvrWW6jhnlvbuOCoNt2mRbAvJrD"
 BASE_URL = "https://sandbox-api.iyzipay.com"
 
 def get_iyzico_options():

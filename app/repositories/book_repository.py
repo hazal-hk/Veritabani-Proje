@@ -34,11 +34,24 @@ def save_new_book(data):
 
 #güncelleme
 def update_book_db(book, data):
-    book.title = data['title']
-    book.isbn = data['isbn']
-    book.author = data['author']
-    book.publication_year = data['publication_year']
-    book.category = data['category']
+#geldiyse güncelle
+    if 'title' in data:
+        book.title = data['title']
+    
+    if 'author' in data:
+        book.author = data['author']
+        
+    if 'isbn' in data:
+        book.isbn = data['isbn']
+        
+    if 'category' in data:
+        book.category = data['category']
+
+    if 'publication_year' in data:
+        book.publication_year = data['publication_year']
+
+    if 'status' in data:
+        book.status = data['status']
 
     db.session.commit()
     return book
